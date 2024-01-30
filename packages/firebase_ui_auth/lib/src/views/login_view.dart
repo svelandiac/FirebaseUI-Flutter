@@ -83,6 +83,7 @@ class _LoginViewState extends State<LoginView> {
   bool get _showTitle => widget.showTitle ?? true;
   bool get _showAuthActionSwitch => widget.showAuthActionSwitch ?? true;
   bool _buttonsBuilt = false;
+  bool _visible = false;
 
   void setAction(AuthAction action) {
     setState(() {
@@ -120,7 +121,11 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  void _handleDifferentAuthAction(BuildContext context) {
+  Future<void> _handleDifferentAuthAction(BuildContext context) async {
+    setState(() {
+      _visible = false;
+    });
+    await Future.delayed(const Duration(milliseconds: 300));
     if (_action == AuthAction.signIn) {
       setState(() {
         _action = AuthAction.signUp;
@@ -130,6 +135,31 @@ class _LoginViewState extends State<LoginView> {
         _action = AuthAction.signIn;
       });
     }
+    setState(() {
+      _visible = true;
+    });
+  }
+
+  Future<void> _handleForgotPassword(BuildContext context) async {
+    setState(() {
+      _visible = false;
+    });
+    await Future.delayed(const Duration(milliseconds: 300));
+    setState(() {
+      _action = AuthAction.recoveryPassword;
+      _visible = true;
+    });
+  }
+
+  Future<void> _handleGoBack(BuildContext context) async {
+    setState(() {
+      _visible = false;
+    });
+    await Future.delayed(const Duration(milliseconds: 300));
+    setState(() {
+      _action = AuthAction.signIn;
+      _visible = true;
+    });
   }
 
   List<Widget> _buildHeader(BuildContext context) {
@@ -196,6 +226,16 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
+      setState(() {
+        _visible = true;
+      });
+    });
+  }
+
+  @override
   void didUpdateWidget(covariant LoginView oldWidget) {
     if (oldWidget.action != widget.action) {
       _action = widget.action;
@@ -203,11 +243,18 @@ class _LoginViewState extends State<LoginView> {
     super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildWidget(BuildContext context) {
     final l = FirebaseUILocalizations.labelsOf(context);
     final platform = Theme.of(context).platform;
     _buttonsBuilt = false;
+
+    if (_action == AuthAction.recoveryPassword) {
+      return ForgotPasswordView(
+        auth: widget.auth,
+        email: widget.email,
+        onGoBack: () => _handleGoBack(context),
+      );
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -225,6 +272,7 @@ class _LoginViewState extends State<LoginView> {
                   action: _action,
                   provider: provider,
                   email: widget.email,
+                  onForgotPassword: () => _handleForgotPassword(context),
                   actionButtonLabelOverride: widget.actionButtonLabelOverride,
                   showPasswordVisibilityToggle: true,
                 )
@@ -251,6 +299,15 @@ class _LoginViewState extends State<LoginView> {
             ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: _visible ? 1 : 0,
+      duration: const Duration(milliseconds: 300),
+      child: _buildWidget(context),
     );
   }
 }

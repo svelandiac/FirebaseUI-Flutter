@@ -66,6 +66,7 @@ class EmailSignUpDialog extends StatelessWidget {
                 const SizedBox(height: 32),
                 EmailForm(
                   auth: auth,
+                  onForgotPassword: () {},
                   action: action,
                   provider: provider,
                   showPasswordVisibilityToggle: showPasswordVisibilityToggle,

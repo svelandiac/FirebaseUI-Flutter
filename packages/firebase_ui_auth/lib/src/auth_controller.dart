@@ -21,6 +21,8 @@ enum AuthAction {
   /// Disables automatic credential handling.
   /// It's up to the user to decide what to do with the obtained credential.
   none,
+
+  recoveryPassword,
 }
 
 /// An abstract class that should be implemented by auth controllers of

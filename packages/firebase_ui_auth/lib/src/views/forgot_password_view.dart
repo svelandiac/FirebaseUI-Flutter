@@ -29,9 +29,13 @@ class ForgotPasswordView extends StatefulWidget {
   /// An email that [EmailInput] should be pre-filled with.
   final String? email;
 
+  /// A callback that would be called when the "Go back" button is pressed.
+  final void Function() onGoBack;
+
   /// {@macro ui.auth.views.forgot_password_view}
   const ForgotPasswordView({
     super.key,
+    required this.onGoBack,
     this.auth,
     this.email,
     this.actionCodeSettings,
@@ -121,7 +125,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           UniversalButton(
             variant: ButtonVariant.text,
             text: l.goBackButtonLabel,
-            onPressed: () => Navigator.pop(context),
+            onPressed: widget.onGoBack,
           ),
           if (widget.footerBuilder != null) widget.footerBuilder!(context),
         ],

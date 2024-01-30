@@ -100,6 +100,10 @@ class EmailForm extends StatelessWidget {
   /// A label that would be used for the "Sign in" button.
   final String? actionButtonLabelOverride;
 
+  /// A callback that is being called when the user wants to recover the password.
+  /// Replaces the default behavior of showing a [ForgotPasswordScreen].
+  final void Function() onForgotPassword;
+
   /// An object that is being used to apply styling configuration to the email
   /// form.
   ///
@@ -139,6 +143,7 @@ class EmailForm extends StatelessWidget {
   /// {@macro ui.auth.widgets.email_form}
   const EmailForm({
     super.key,
+    required this.onForgotPassword,
     this.action,
     this.auth,
     this.provider,
@@ -157,6 +162,7 @@ class EmailForm extends StatelessWidget {
       provider: provider,
       email: email,
       onSubmit: onSubmit,
+      onForgotPassword: onForgotPassword,
       actionButtonLabelOverride: actionButtonLabelOverride,
       style: style,
       showPasswordVisibilityToggle: showPasswordVisibilityToggle,
@@ -185,8 +191,10 @@ class _SignInFormContent extends StatefulWidget {
   final bool showPasswordVisibilityToggle;
 
   final EmailFormStyle? style;
+  final void Function() onForgotPassword;
 
   const _SignInFormContent({
+    required this.onForgotPassword,
     this.auth,
     this.onSubmit,
     this.action,
@@ -275,18 +283,19 @@ class _SignInFormContentState extends State<_SignInFormContent> {
           alignment: Alignment.centerRight,
           child: ForgotPasswordButton(
             onPressed: () {
-              final navAction =
-                  FirebaseUIAction.ofType<ForgotPasswordAction>(context);
+              // final navAction =
+              //     FirebaseUIAction.ofType<ForgotPasswordAction>(context);
 
-              if (navAction != null) {
-                navAction.callback(context, emailCtrl.text);
-              } else {
-                showForgotPasswordScreen(
-                  context: context,
-                  email: emailCtrl.text,
-                  auth: widget.auth,
-                );
-              }
+              // if (navAction != null) {
+              //   navAction.callback(context, emailCtrl.text);
+              // } else {
+              //   showForgotPasswordScreen(
+              //     context: context,
+              //     email: emailCtrl.text,
+              //     auth: widget.auth,
+              //   );
+              // }
+              widget.onForgotPassword();
             },
           ),
         ),

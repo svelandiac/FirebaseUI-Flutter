@@ -64,6 +64,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     final child = ForgotPasswordView(
       auth: auth,
       email: email,
+      onGoBack: () {},
       footerBuilder: footerBuilder,
       subtitleBuilder: subtitleBuilder,
     );
