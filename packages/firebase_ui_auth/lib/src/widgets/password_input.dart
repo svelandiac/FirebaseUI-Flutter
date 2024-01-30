@@ -68,6 +68,7 @@ class _PasswordInputState extends State<PasswordInput> {
     return UniversalIconButton(
       materialIcon: mIcon,
       cupertinoIcon: cIcon,
+      color: Colors.white,
       onPressed: () => setState(() => obscureText = !obscureText),
     );
   }

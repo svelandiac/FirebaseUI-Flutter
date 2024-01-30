@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:firebase_ui_shared/firebase_ui_shared.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fba;
@@ -81,41 +82,25 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginContent = ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 500),
-      child: Padding(
-        padding: const EdgeInsets.all(30),
-        child: LoginView(
-          key: loginViewKey,
-          action: action,
-          auth: auth,
-          providers: providers,
-          oauthButtonVariant: oauthButtonVariant,
-          email: email,
-          showAuthActionSwitch: showAuthActionSwitch,
-          subtitleBuilder: subtitleBuilder,
-          footerBuilder: footerBuilder,
-          showPasswordVisibilityToggle: showPasswordVisibilityToggle,
-        ),
+    final loginContent = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: LoginView(
+        key: loginViewKey,
+        action: action,
+        auth: auth,
+        providers: providers,
+        oauthButtonVariant: oauthButtonVariant,
+        email: email,
+        showAuthActionSwitch: showAuthActionSwitch,
+        subtitleBuilder: subtitleBuilder,
+        footerBuilder: footerBuilder,
+        showPasswordVisibilityToggle: showPasswordVisibilityToggle,
       ),
-    );
-
-    final body = ResponsivePage(
-      breakpoint: breakpoint,
-      desktopLayoutDirection: desktopLayoutDirection,
-      headerBuilder: headerBuilder,
-      headerMaxExtent: headerMaxExtent,
-      sideBuilder: sideBuilder,
-      maxWidth: maxWidth,
-      child: loginContent,
     );
 
     return FirebaseUITheme(
       styles: styles ?? const {},
-      child: UniversalScaffold(
-        body: body,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      ),
+      child: loginContent,
     );
   }
 }

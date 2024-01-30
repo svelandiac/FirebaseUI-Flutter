@@ -158,9 +158,8 @@ class _LoginViewState extends State<LoginView> {
       registerTextColor = theme.primaryColor;
       hintStyle = theme.textTheme.textStyle.copyWith(fontSize: 12);
     } else {
-      final theme = Theme.of(context);
-      hintStyle = Theme.of(context).textTheme.bodySmall;
-      registerTextColor = theme.colorScheme.primary;
+      hintStyle = Theme.of(context).textTheme.bodyMedium;
+      registerTextColor = Colors.white;
     }
 
     return [
@@ -182,8 +181,8 @@ class _LoginViewState extends State<LoginView> {
               TextSpan(
                 text: actionText,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: registerTextColor,
-                    ),
+                    color: registerTextColor,
+                    decoration: TextDecoration.underline),
                 mouseCursor: SystemMouseCursors.click,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => _handleDifferentAuthAction(context),
@@ -210,8 +209,9 @@ class _LoginViewState extends State<LoginView> {
     final platform = Theme.of(context).platform;
     _buttonsBuilt = false;
 
-    return IntrinsicHeight(
+    return SingleChildScrollView(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (_showTitle) ..._buildHeader(context),
@@ -226,8 +226,7 @@ class _LoginViewState extends State<LoginView> {
                   provider: provider,
                   email: widget.email,
                   actionButtonLabelOverride: widget.actionButtonLabelOverride,
-                  showPasswordVisibilityToggle:
-                      widget.showPasswordVisibilityToggle,
+                  showPasswordVisibilityToggle: true,
                 )
               ] else if (provider is PhoneAuthProvider) ...[
                 const SizedBox(height: 8),
