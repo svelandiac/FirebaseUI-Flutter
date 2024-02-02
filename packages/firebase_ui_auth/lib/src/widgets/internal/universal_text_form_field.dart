@@ -106,6 +106,9 @@ class UniversalTextFormField extends PlatformWidget {
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+          ),
     );
   }
 }

@@ -116,11 +116,15 @@ class UniversalButton extends PlatformWidget {
   @override
   Widget buildMaterial(BuildContext context) {
     final child = this.child ??
-        Text(text!,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                  decoration: TextDecoration.underline,
-                ));
+        Text(
+          text!,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.bold,
+                decorationColor: Colors.white,
+              ),
+        );
 
     ButtonStyle? style;
 

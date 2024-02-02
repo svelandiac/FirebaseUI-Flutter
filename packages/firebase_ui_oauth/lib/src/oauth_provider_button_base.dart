@@ -277,7 +277,7 @@ class _OAuthProviderButtonBaseState extends State<OAuthProviderButtonBase>
         context,
         style,
         margin,
-        borderRadius,
+        40,
         iconBorderRadius,
       );
     }

@@ -193,7 +193,9 @@ class _LoginViewState extends State<LoginView> {
     }
 
     return [
-      Title(text: title),
+      Title(
+        text: title,
+      ),
       const SizedBox(height: 16),
       if (widget.subtitleBuilder != null)
         widget.subtitleBuilder!(
@@ -210,9 +212,11 @@ class _LoginViewState extends State<LoginView> {
               ),
               TextSpan(
                 text: actionText,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: registerTextColor,
-                    decoration: TextDecoration.underline),
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.white,
+                    fontWeight: FontWeight.bold),
                 mouseCursor: SystemMouseCursors.click,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () => _handleDifferentAuthAction(context),
@@ -290,8 +294,10 @@ class _LoginViewState extends State<LoginView> {
                   auth: widget.auth,
                   provider: provider,
                 ),
-              ] else if (provider is OAuthProvider && !_buttonsBuilt)
-                _buildOAuthButtons(platform),
+              ] else if (provider is OAuthProvider && !_buttonsBuilt) ...[
+                const SizedBox(height: 24),
+                _buildOAuthButtons(platform)
+              ],
           if (widget.footerBuilder != null)
             widget.footerBuilder!(
               context,

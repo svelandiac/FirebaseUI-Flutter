@@ -16,6 +16,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+dependency_overrides:
+  meta: ^1.9.1
+  collection: ^1.17.1
+  async: ^2.11.0
+  http: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
