@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:firebase_auth/firebase_auth.dart' as fba;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -83,11 +85,14 @@ class ErrorText extends StatelessWidget {
   /// How the text should be aligned horizontally.
   final TextAlign? textAlign;
 
+  final AuthAction? action;
+
   /// {@macro ui.auth.widgets.error_text}
   const ErrorText({
     super.key,
     required this.exception,
     this.textAlign,
+    this.action,
   });
 
   @override
@@ -124,6 +129,19 @@ class ErrorText extends StatelessWidget {
 
     if (exception is PlatformException && localizePlatformError != null) {
       text = localizePlatformError!(context, exception as PlatformException);
+    }
+
+    if (text.length > 60) {
+      text = action == AuthAction.signIn
+          ? l.wrongOrNoPasswordErrorText
+          : l.unknownError;
+    }
+
+    if (exception is FirebaseAuthException) {
+      final e = exception as FirebaseAuthException;
+      if (e.code == 'network-request-failed') {
+        text = 'No internet connection';
+      }
     }
 
     return Text(

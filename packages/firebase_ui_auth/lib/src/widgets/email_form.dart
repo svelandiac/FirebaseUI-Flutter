@@ -341,12 +341,14 @@ class _SignInFormContentState extends State<_SignInFormContent> {
       Builder(
         builder: (context) {
           final authState = AuthState.of(context);
+
           if (authState is AuthFailed) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: ErrorText(
                 textAlign: TextAlign.center,
                 exception: authState.exception,
+                action: widget.action,
               ),
             );
           }

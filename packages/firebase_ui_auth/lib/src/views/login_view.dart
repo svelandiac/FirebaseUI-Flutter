@@ -233,9 +233,11 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      setState(() {
-        _visible = true;
-      });
+      if (mounted) {
+        setState(() {
+          _visible = true;
+        });
+      }
     });
   }
 
